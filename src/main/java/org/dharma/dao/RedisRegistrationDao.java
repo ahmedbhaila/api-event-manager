@@ -56,8 +56,8 @@ public class RedisRegistrationDao implements RegistrationDao {
 	}
 
 	private void saveScore(String registrationKey) {
-		opsForZSet.add(ApplicationConstants.EVENT_SCORE_INDEX, registrationKey,
-				Double.valueOf(opsForValue.get(ApplicationConstants.EVENT_ID)));
+		opsForZSet.add(ApplicationConstants.REGISTRATION_SCORE_INDEX, registrationKey,
+				Double.valueOf(opsForValue.get(ApplicationConstants.REGISTRATION_ID)));
 	}
 	
 	private void saveUserRegScore(Registration registration) {
@@ -92,7 +92,7 @@ public class RedisRegistrationDao implements RegistrationDao {
 		log.debug("Deleting Registration with registerationKey " + regKey);
 		
 		Registration reg = load(regKey);
-		opsForZSet.remove(ApplicationConstants.EVENT_SCORE_INDEX, regKey);
+		opsForZSet.remove(ApplicationConstants.REGISTRATION_SCORE_INDEX, regKey);
 		opsForSet.remove(ApplicationConstants.USER_REGISTRATION_INDEX + reg.getUserId(), regKey);
 		opsForSet.remove(ApplicationConstants.EVENT_REGISTRATION_INDEX + reg.getEventId(), regKey);
 		redisTemplate.delete(regKey);
@@ -118,6 +118,15 @@ public class RedisRegistrationDao implements RegistrationDao {
 
 	@Override
 	public Set<String> loadByUser(String userId) {
-		return opsForSet.members(ApplicationConstants.USER_REGISTRATION_INDEX + UserIdKeyGenerator.generateEventId(userId));
+		String userKey = userId;
+		if(!userId.startsWith(ApplicationConstants.USER_ID)) {
+			userKey = UserIdKeyGenerator.generateEventId(userId);
+		}
+		return opsForSet.members(ApplicationConstants.USER_REGISTRATION_INDEX + userKey);
+	}
+	
+	@Override
+	public Long getTotalRegistrations() {
+		return opsForZSet.zCard(ApplicationConstants.REGISTRATION_SCORE_INDEX);
 	}
 }

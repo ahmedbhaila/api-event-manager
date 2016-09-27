@@ -3,7 +3,7 @@ package org.dharma;
 import org.dharma.dao.UserDAO;
 import org.dharma.exception.UserException;
 import org.dharma.model.User;
-import org.dharma.services.UserRegistrationService;
+import org.dharma.services.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,7 @@ public class UserServiceTest {
 	private static String USER_ID_PREFIX = "userId:";
 
 	@Autowired
-	UserRegistrationService userRegService;
+	UserService userRegService;
 
 	@Test
 	public void testSaveEvent() {

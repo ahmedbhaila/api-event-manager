@@ -50,7 +50,7 @@ public class RedisUserDAO implements UserDAO {
 	}
 	
 	private String persist(String userKey, String createdBy, User user) {
-		opsForHash.put(userKey, ApplicationConstants.USER_EMAIL, user.getEmail());
+		opsForHash.put(userKey, ApplicationConstants.USER_EMAIL, user.getEmail().toLowerCase().trim());
 		opsForHash.put(userKey, ApplicationConstants.CREATED_BY, createdBy);
 		opsForHash.put(userKey, ApplicationConstants.USER_FIRST_NAME, user.getFirstName());
 		opsForHash.put(userKey, ApplicationConstants.USER_ID, userKey);
@@ -113,6 +113,11 @@ public class RedisUserDAO implements UserDAO {
 		}
 		log.debug("Updating user with " + userId);
 		return persist(userKey, user.getCreatedBy(), user);
+	}
+	
+	@Override
+	public Long getTotalUsers() {
+		return opsForZSet.zCard(ApplicationConstants.USER_SCORE_INDEX);
 	}
 
 }

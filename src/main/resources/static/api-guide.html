@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.2">
-<title>Headers</title>
+<title>Sample Requests For Event endpoint</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -414,19 +414,53 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="overview-headers">Headers</h2>
+<h2 id="overview-headers">Sample Requests For Event endpoint</h2>
 <div class="sectionbody">
-<div class="paragraph">
-<p>Every response has the following header(s):</p>
+<div class="sect3">
+<h4 id="_create_a_new_event_with_mandatory_parameters">Create a new Event with Mandatory parameters</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/event' -i -u 'admin:admin' -X POST -H 'Content-Type: application/json' -d '{"name": "testEvent3", "description": "test description", "location": "Chicago,IL", "dateTime": "2017-09-26T20:11:43.00Z", "isPublic" : "false"}'</code></pre>
+</div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/user/165' -i -u 'admin:admin'</code></pre>
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/event HTTP/1.1
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080
+Content-Length: 144
+
+{"name": "testEvent3", "description": "test description", "location": "Chicago,IL", "dateTime": "2017-09-26T20:11:43.00Z", "isPublic" : "false"}</code></pre>
 </div>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/user/165 HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 10
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+
+eventId:22</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_a_created_event">Get a created Event</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/event/18' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/event/18 HTTP/1.1
 Authorization: Basic YWRtaW46YWRtaW4=
 Host: localhost:8080</code></pre>
 </div>
@@ -442,9 +476,741 @@ Pragma: no-cache
 Expires: 0
 X-Frame-Options: DENY
 Strict-Transport-Security: max-age=31536000 ; includeSubDomains
-Content-Length: 158
+Content-Length: 234
 
-{"firstName":"Mickey","lastName":"Mouse","email":"mickey.mouse@disney.com","phone":"1-800-123-4567","password":"minnie","createdBy":"admin","id":"userId:165"}</code></pre>
+{"id":"18","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"false"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_a_new_event_with_all_parameters">Create a new Event with all parameters</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/event' -i -u 'admin:admin' -X POST -H 'Content-Type: application/json' -d '{"name": "testEvent3", "geoLocation": "123,123", "webUrl": "http://localhost/img", "photo": "img", "description": "test description", "location": "Chicago,IL", "dateTime": "2017-09-26T20:11:43.00Z", "isPublic" : "false"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/event HTTP/1.1
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080
+Content-Length: 220
+
+{"name": "testEvent3", "geoLocation": "123,123", "webUrl": "http://localhost/img", "photo": "img", "description": "test description", "location": "Chicago,IL", "dateTime": "2017-09-26T20:11:43.00Z", "isPublic" : "false"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 10
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+
+eventId:18</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_update_an_event">Update an Event</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/event/20' -i -u 'admin:admin' -X PUT -H 'Content-Type: application/json' -d '{"id":"20","name":"testEvent3","description":"test updated description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"false"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /v1/event/20 HTTP/1.1
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080
+Content-Length: 242
+
+{"id":"20","name":"testEvent3","description":"test updated description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"false"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deleting_an_event">Deleting an Event</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/event/17' -i -u 'admin:admin' -X DELETE</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /v1/event/17 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_events_with_default_pagination_all">Get Events with default pagination (all)</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 2172
+
+[{"id":"eventId:1","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":null,"dateTime":"2017-09-26T20:11:43.00Z","webUrl":null,"photo":null,"isPublic":"false"},{"id":"eventId:2","name":"Test Event","description":"This is a test event","createdby":"test","location":"chicago, il","geoLocation":"124,124","dateTime":"09-12-2016 12:00:00","webUrl":"http://www.test.com","photo":"http://photourl","isPublic":"yes"},{"id":"eventId:3","name":"Test Event","description":"This is a test event","createdby":"test","location":"chicago, il","geoLocation":"124,124","dateTime":"09-12-2016 12:00:00","webUrl":"http://www.test.com","photo":"http://photourl","isPublic":"yes"},{"id":"eventId:4","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:5","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"false"},{"id":"eventId:6","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"false"},{"id":"eventId:7","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"false"},{"id":"eventId:8","name":"Special Event","description":"test description","createdby":"admin","location":"burbank,ca","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:9","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"false"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_events_paginated_single_record">Get Events Paginated (Single Record)</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events?startIndex=1&amp;pageSize=1' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events?startIndex=1&amp;pageSize=1 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 219
+
+[{"id":"eventId:1","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":null,"dateTime":"2017-09-26T20:11:43.00Z","webUrl":null,"photo":null,"isPublic":"false"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_events_paginated_multiple_records">Get Events paginated (Multiple Records)</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events?startIndex=1&amp;pageSize=3' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events?startIndex=1&amp;pageSize=3 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 721
+
+[{"id":"eventId:1","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":null,"dateTime":"2017-09-26T20:11:43.00Z","webUrl":null,"photo":null,"isPublic":"false"},{"id":"eventId:2","name":"Test Event","description":"This is a test event","createdby":"test","location":"chicago, il","geoLocation":"124,124","dateTime":"09-12-2016 12:00:00","webUrl":"http://www.test.com","photo":"http://photourl","isPublic":"yes"},{"id":"eventId:3","name":"Test Event","description":"This is a test event","createdby":"test","location":"chicago, il","geoLocation":"124,124","dateTime":"09-12-2016 12:00:00","webUrl":"http://www.test.com","photo":"http://photourl","isPublic":"yes"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_filter_events_by_public_type">Filter events by public type</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events?searchCriteria=isPublic:true' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events?searchCriteria=isPublic:true HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 242
+
+[{"id":"eventId:4","name":"testEvent3","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_filter_events_by_geolocation">Filter events by geoLocation</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events?searchCriteria=geoLocation:22,21' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events?searchCriteria=geoLocation:22,21 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 1218
+
+[{"id":"eventId:15","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:8","name":"Special Event","description":"test description","createdby":"admin","location":"burbank,ca","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:16","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:14","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:19","name":"testEvent3","description":"test description","createdby":"admin","location":"burbank,ca","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_filter_events_by_name">Filter events by name</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events?searchCriteria=name:Special%20Event' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events?searchCriteria=name:Special%20Event HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 243
+
+[{"id":"eventId:8","name":"Special Event","description":"test description","createdby":"admin","location":"burbank,ca","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_filter_events_by_location_name">Filter events by Location name</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events?searchCriteria=location:burbank,ca' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events?searchCriteria=location:burbank,ca HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 725
+
+[{"id":"eventId:19","name":"testEvent3","description":"test description","createdby":"admin","location":"burbank,ca","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:8","name":"Special Event","description":"test description","createdby":"admin","location":"burbank,ca","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:21","name":"testEvent3","description":"test description","createdby":"admin","location":"burbank,ca","geoLocation":"123,123","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_multi_filter_events_that_are_in_a_location_and_are_private">Multi filter - Events that are in a location and are private</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events?searchCriteria=location:chicago,il;name:Exclusive%20Event' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events?searchCriteria=location:chicago,il;name:Exclusive%20Event HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 981
+
+[{"id":"eventId:24","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:15","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:16","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:14","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_multi_filter_events_that_are_in_a_location_and_are_private_with_pagination">Multi filter - Events that are in a location and are private with pagination</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events?searchCriteria=location:chicago,il;name:Exclusive%20Event&amp;startIndex=1&amp;pageSize=3' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events?searchCriteria=location:chicago,il;name:Exclusive%20Event&amp;startIndex=1&amp;pageSize=3 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 736
+
+[{"id":"eventId:15","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:16","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"},{"id":"eventId:14","name":"Exclusive Event","description":"test description","createdby":"admin","location":"chicago,il","geoLocation":"22,21","dateTime":"2017-09-26T20:11:43.00Z","webUrl":"http://localhost/img","photo":"img","isPublic":"true"}]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_total_event_count">Get Total Event Count</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/events/total' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/events/total HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 2
+
+16</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sample_requests_for_user_endpoint">Sample Requests For User endpoint</h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_create_a_new_user_with_mandatory_parameters">Create a new User with Mandatory parameters</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/user' -i -u 'admin:admin' -X POST -H 'Content-Type: application/json' -d '{"firstName": "Mickey", "lastName": "Mouse", "password": "minnie", "email": "mickey.mouse@disney.com"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/user HTTP/1.1
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080
+Content-Length: 102
+
+{"firstName": "Mickey", "lastName": "Mouse", "password": "minnie", "email": "mickey.mouse@disney.com"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+
+userId:6</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_a_created_user">Get a created User</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/user/6' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/user/6 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 144
+
+{"firstName":"Mickey","lastName":"Mouse","email":"mickey.mouse@disney.com","phone":null,"password":"minnie","createdBy":"admin","id":"userId:6"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_create_a_new_user_with_all_parameters">Create a new User with all parameters</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/user' -i -u 'admin:admin' -X POST -H 'Content-Type: application/json' -d '{"firstName": "Mickey", "lastName": "Mouse", "password": "minnie", "email": "mickey.mouse@disney.com", "phone": "1-800-123-4567"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/user HTTP/1.1
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080
+Content-Length: 129
+
+{"firstName": "Mickey", "lastName": "Mouse", "password": "minnie", "email": "mickey.mouse@disney.com", "phone": "1-800-123-4567"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+
+userId:8</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_update_a_user">Update a User</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/user/4' -i -u 'admin:admin' -X PUT -H 'Content-Type: application/json' -d '{"firstName":"Minnie","lastName":"Mouse","email":"mickey.mouse@disney.com","phone":"1-800-123-4567","password":"minnie","createdBy":"admin","id":"userId:4"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /v1/user/4 HTTP/1.1
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080
+Content-Length: 156
+
+{"firstName":"Minnie","lastName":"Mouse","email":"mickey.mouse@disney.com","phone":"1-800-123-4567","password":"minnie","createdBy":"admin","id":"userId:4"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+
+userId:4</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deleting_a_user">Deleting a User</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/user/7' -i -u 'admin:admin' -X DELETE</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /v1/user/7 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_total_users">Get total users</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/users/total' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/users/total HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 1
+
+6</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sample_requests_for_registering_a_user_with_an_event">Sample Requests for Registering a User with an Event</h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_register_an_existing_user_to_an_existing_event">Register an existing user to an existing event</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/register' -i -u 'admin:admin' -X POST -H 'Content-Type: application/json' -d '{"userId": "userId:1", "eventId": "eventId:1"}'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /v1/register HTTP/1.1
+Content-Type: application/json
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080
+Content-Length: 46
+
+{"userId": "userId:1", "eventId": "eventId:1"}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 16
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+
+registrationId:1</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_a_registered_event">Get a registered event</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/register/1' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/register/1 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 302 Found
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 87
+
+{"userId":"userId:1","eventId":"eventId:1","createdBy":"admin","id":"registrationId:1"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deleting_a_user_registered_event">Deleting a User Registered Event</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/register/1' -i -u 'admin:admin' -X DELETE</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /v1/register/1 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_get_registrations_by_users">Get Registrations by Users</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/v1/register/user/userId:1' -i -u 'admin:admin'</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /v1/register/user/userId:1 HTTP/1.1
+Authorization: Basic YWRtaW46YWRtaW4=
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 89
+
+[{"userId":"userId:1","eventId":"eventId:1","createdBy":"admin","id":"registrationId:1"}]</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -452,7 +1218,7 @@ Content-Length: 158
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2016-09-26 21:17:38 CDT
+Last updated 2016-09-27 12:30:07 CDT
 </div>
 </div>
 </body>

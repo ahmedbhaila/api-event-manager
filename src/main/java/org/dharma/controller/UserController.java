@@ -6,7 +6,7 @@ import org.dharma.exception.EventException;
 import org.dharma.exception.RegisterException;
 import org.dharma.exception.UserException;
 import org.dharma.model.User;
-import org.dharma.services.UserRegistrationService;
+import org.dharma.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1")
-public class UserRegistrationController {
+public class UserController {
 
 	@Autowired
-	UserRegistrationService userService;
+	UserService userService;
 
 	@PostMapping("/user")
 	@ResponseStatus(code = HttpStatus.CREATED)
@@ -50,6 +50,12 @@ public class UserRegistrationController {
 	@ResponseStatus(code = HttpStatus.FOUND)
 	public User getUser(@PathVariable("user_id") String userId) throws UserException {
 		return userService.getUser(userId);
+	}
+	
+	@GetMapping("/users/total")
+	@ResponseStatus(code = HttpStatus.OK)
+	public Long getTotalUser() throws Exception {
+		return userService.getTotalUsers();
 	}
 
 	@ExceptionHandler(UserException.class)

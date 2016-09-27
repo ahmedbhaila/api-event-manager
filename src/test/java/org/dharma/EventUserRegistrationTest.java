@@ -8,8 +8,8 @@ import org.dharma.model.Event;
 import org.dharma.model.Registration;
 import org.dharma.model.User;
 import org.dharma.services.EventService;
-import org.dharma.services.EventUserRegistrationService;
-import org.dharma.services.UserRegistrationService;
+import org.dharma.services.RegistrationService;
+import org.dharma.services.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,13 +24,13 @@ public class EventUserRegistrationTest {
 	private static String REGISTRATION_ID_PREFIX = "registrationId:";
 
 	@Autowired
-	UserRegistrationService userService;
+	UserService userService;
 
 	@Autowired
 	EventService eventService;
 	
 	@Autowired
-	EventUserRegistrationService eventUserRegService;
+	RegistrationService eventUserRegService;
 
 	@Test
 	public void testSaveRegistration() throws Exception {

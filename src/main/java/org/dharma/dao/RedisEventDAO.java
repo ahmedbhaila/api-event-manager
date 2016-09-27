@@ -64,8 +64,8 @@ public class RedisEventDAO implements EventDAO {
 		opsForZSet.add(ApplicationConstants.EVENT_SCORE_INDEX, eventKey, Double.valueOf(opsForValue.get(ApplicationConstants.EVENT_ID)));
 		//opsForZSet.add(ApplicationConstants.EVENT_DATE_TIME_INDEX, eventKey, Long.valueOf(event.getDateTime()));
 		opsForSet.add(ApplicationConstants.EVENT_GEOLOCATION_INDEX + event.getGeoLocation(), eventKey);
-		opsForSet.add(ApplicationConstants.EVENT_IS_PUBLIC_INDEX + event.getIsPublic(), eventKey);
-		opsForSet.add(ApplicationConstants.EVENT_LOCATION_INDEX + event.getLocation(), eventKey);
+		opsForSet.add(ApplicationConstants.EVENT_IS_PUBLIC_INDEX + event.getIsPublic().toLowerCase().trim(), eventKey);
+		opsForSet.add(ApplicationConstants.EVENT_LOCATION_INDEX + event.getLocation().toLowerCase().trim(), eventKey);
 		opsForSet.add(ApplicationConstants.EVENT_NAME_INDEX + event.getName(), eventKey);
 	}
 	
@@ -84,13 +84,13 @@ public class RedisEventDAO implements EventDAO {
 		opsForHash.put(eventKey, ApplicationConstants.EVENT_DATE_TIME, event.getDateTime());
 		opsForHash.put(eventKey, ApplicationConstants.EVENT_DESC, event.getDescription());
 		if(event.getGeoLocation() != null) {
-			opsForHash.put(eventKey, ApplicationConstants.EVENT_GEO_LOCATION, event.getGeoLocation());
+			opsForHash.put(eventKey, ApplicationConstants.EVENT_GEO_LOCATION, event.getGeoLocation().trim());
 		}
-		opsForHash.put(eventKey, ApplicationConstants.EVENT_LOCATION, event.getLocation());
+		opsForHash.put(eventKey, ApplicationConstants.EVENT_LOCATION, event.getLocation().toLowerCase().trim());
 		if(event.getPhoto() != null) {
 			opsForHash.put(eventKey, ApplicationConstants.EVENT_PHOTO,event.getPhoto());
 		}
-		opsForHash.put(eventKey, ApplicationConstants.EVENT_PUBLIC_FLAG,event.getIsPublic());
+		opsForHash.put(eventKey, ApplicationConstants.EVENT_PUBLIC_FLAG,event.getIsPublic().toLowerCase());
 		if(event.getWebUrl() != null) {
 			opsForHash.put(eventKey, ApplicationConstants.EVENT_URL,event.getWebUrl());
 		}
@@ -188,5 +188,10 @@ public class RedisEventDAO implements EventDAO {
 		else {
 			return getEvents(opsForZSet.range(ApplicationConstants.EVENT_SCORE_INDEX, start, end).stream());
 		}
+	}
+
+	@Override
+	public Long getTotalEvents() {
+		return opsForZSet.zCard(ApplicationConstants.EVENT_SCORE_INDEX);
 	}
 }

@@ -11,9 +11,9 @@ import org.dharma.dao.RedisUserDAO;
 import org.dharma.dao.RegistrationDao;
 import org.dharma.dao.UserDAO;
 import org.dharma.services.EventService;
-import org.dharma.services.EventUserRegistrationService;
+import org.dharma.services.RegistrationService;
 import org.dharma.services.RedisUserDetailsService;
-import org.dharma.services.UserRegistrationService;
+import org.dharma.services.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -89,13 +89,13 @@ public class DeusExMachinaApplication {
 	}
 
 	@Bean
-	public UserRegistrationService userRegistrationService() {
-		return new UserRegistrationService();
+	public UserService userRegistrationService() {
+		return new UserService();
 	}
 
 	@Bean
-	public EventUserRegistrationService eventUserRegistrationService() {
-		return new EventUserRegistrationService();
+	public RegistrationService eventUserRegistrationService() {
+		return new RegistrationService();
 	}
 
 	@PostConstruct

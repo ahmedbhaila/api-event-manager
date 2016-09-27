@@ -52,4 +52,8 @@ public class EventService {
 		log.debug("Searching for events with criteria " + searchCriteria);
 		return eventDAO.getAll(startIndex, pageSize, searchCriteriaMap);
 	}
+	
+	public Long getTotalEvents() {
+		return eventDAO.getTotalEvents();
+	}
 }

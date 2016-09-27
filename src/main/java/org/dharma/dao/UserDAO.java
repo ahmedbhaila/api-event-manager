@@ -8,6 +8,7 @@ public interface UserDAO {
 	public User get(String userId) throws UserException;
 	public void delete(String userId);
 	public String update(String userId, User user);
+	public Long getTotalUsers();
 //	public List<Event> getAll(int startIndex, int pageSize);
 //	public List<Event> getByUser(String userId, int startIndex, int pageSize);
 //	public List<Event> search(String filterString, int startIndex, int pageSize);

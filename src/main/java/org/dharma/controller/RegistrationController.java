@@ -1,12 +1,14 @@
 package org.dharma.controller;
 
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.dharma.exception.EventException;
 import org.dharma.exception.RegisterException;
 import org.dharma.exception.UserException;
 import org.dharma.model.Registration;
-import org.dharma.services.EventUserRegistrationService;
+import org.dharma.services.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,9 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1")
-public class UserEventRegistrationController {
+public class RegistrationController {
 	@Autowired
-	EventUserRegistrationService service;
+	RegistrationService service;
 	
 	@PostMapping("/register")
 	@ResponseStatus(code=HttpStatus.CREATED)
@@ -42,6 +44,17 @@ public class UserEventRegistrationController {
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("register_id") String regId) throws Exception {
 		service.delete(regId);
+	}
+	
+	@GetMapping("/register/total")
+	@ResponseStatus(code=HttpStatus.OK)
+	public Long getTotalRegistrations()  {
+		return service.getRegistrations();
+	}
+	
+	@GetMapping("/register/user/{user_id}")
+	public Set<Registration> getRegistrationsByUser(@PathVariable("user_id") String userId) throws Exception {
+		return service.getRegistrationsWithUser(userId);
 	}
 	
 	@ExceptionHandler(UserException.class)

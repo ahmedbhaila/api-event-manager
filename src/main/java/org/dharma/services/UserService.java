@@ -5,13 +5,13 @@ import org.dharma.exception.UserException;
 import org.dharma.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class UserRegistrationService {
+public class UserService {
 	
 	@Autowired
 	UserDAO userDao;
 	
 	@Autowired
-	EventUserRegistrationService regEventUserService;
+	RegistrationService regEventUserService;
 	
 	public String registerUser(User user, String createdBy) {
 		return userDao.save(user, createdBy);
@@ -29,5 +29,9 @@ public class UserRegistrationService {
 	
 	public User getUser(String userKey) throws UserException {
 		return userDao.get(userKey);
-	} 
+	}
+	
+	public Long getTotalUsers() throws Exception {
+		return userDao.getTotalUsers();
+	}
 }

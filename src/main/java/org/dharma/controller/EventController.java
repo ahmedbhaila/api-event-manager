@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/v1")
-public class EventRegistrationController {
+public class EventController {
 
 	@Autowired
 	EventService eventService;
@@ -61,6 +61,12 @@ public class EventRegistrationController {
 			@RequestParam(name = "pageSize", defaultValue = "0") Integer pageSize,
 			@RequestParam(required = false, name = "searchCriteria") String searchCriteria) {
 		return eventService.getEvents(startIndex, pageSize, searchCriteria);
+	}
+	
+	@GetMapping(path = "/events/total")
+	@ResponseStatus(code = HttpStatus.OK)
+	public Long getTotalEvents() {
+		return eventService.getTotalEvents();
 	}
 
 	@ExceptionHandler(UserException.class)

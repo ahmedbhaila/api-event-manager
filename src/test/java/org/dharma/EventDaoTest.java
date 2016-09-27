@@ -38,7 +38,7 @@ public class EventDaoTest {
 			Assert.assertTrue(event.getDescription().equals("This is a test event"));
 			Assert.assertTrue(event.getGeoLocation().equals("124,124"));
 			Assert.assertTrue(event.getIsPublic().equals("yes"));
-			Assert.assertTrue(event.getLocation().equals("Chicago, IL"));
+			Assert.assertTrue(event.getLocation().equals("chicago, il"));
 			Assert.assertTrue(event.getName().equals("Test Event"));
 			Assert.assertTrue(event.getPhoto().equals("http://photourl"));
 			Assert.assertTrue(event.getWebUrl().equals("http://www.test.com"));

@@ -39,6 +39,7 @@ public class ApplicationConstants {
 	// User Event Registration
 	public static final String REGISTRATION_ID = "registrationId";
 	public static final int REGISTRATION_ID_DELTA = 1;
+	public static final String REGISTRATION_SCORE_INDEX = "registrations";
 	public static final String REGISTRATION_NOT_FOUND_EXCEPTION = "Registration could not be found";
 	public static final String USER_REGISTRATION_INDEX = "registration:user:";
 	public static final String EVENT_REGISTRATION_INDEX = "registration:event:";

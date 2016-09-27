@@ -10,4 +10,5 @@ public interface RegistrationDao {
 	public void delete(String registrationId) throws RegisterException;
 	public Registration load(String registrationId) throws RegisterException;
 	public Set<String> loadByUser(String userId);
+	public Long getTotalRegistrations();
 }

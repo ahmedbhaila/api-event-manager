@@ -1,8 +1,9 @@
 package org.dharma;
 
-import org.dharma.controller.EventRegistrationController;
-import org.dharma.controller.UserRegistrationController;
+import org.dharma.controller.EventController;
+import org.dharma.controller.UserController;
 import org.hamcrest.Matcher;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,21 +28,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(UserRegistrationController.class)
-public class UserRegistrationControllerTest {
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
 
 	@Autowired
 	private WebApplicationContext context;
-	
+
 	@Autowired
 	JedisConnectionFactory jedisConnection;
-	
+
 	@Autowired
 	RedisTemplate<String, String> redisTemplate;
-
 
 	@Rule
 	public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("build/generated-snippets");
@@ -50,10 +50,10 @@ public class UserRegistrationControllerTest {
 	public void setUp() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).apply(springSecurity())
 				.apply(documentationConfiguration(this.restDocumentation)).build();
-		
-		jedisConnection.getConnection().flushDb();
-		redisTemplate.opsForValue().set("admin", "admin");
-		jedisConnection.getConnection().close();
+
+//		jedisConnection.getConnection().flushDb();
+//		redisTemplate.opsForValue().set("admin", "admin");
+//		jedisConnection.getConnection().close();
 	}
 
 	@Test
@@ -72,9 +72,7 @@ public class UserRegistrationControllerTest {
 		this.mvc.perform(get("/v1/user/" + userId.split(":")[1]).with(httpBasic("admin", "admin")))
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Mickey"))
 				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
-				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com"))
-				.andDo(document("getUser"))
-				.andReturn();
+				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com")).andDo(document("getUser")).andReturn();
 	}
 
 	@Test
@@ -95,8 +93,7 @@ public class UserRegistrationControllerTest {
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Mickey"))
 				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
 				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com"))
-				.andExpect(jsonPath("$.phone").value("1-800-123-4567"))
-				.andReturn();
+				.andExpect(jsonPath("$.phone").value("1-800-123-4567")).andReturn();
 	}
 
 	@Test
@@ -129,7 +126,8 @@ public class UserRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("user")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		String userId = result.getResponse().getContentAsString();
 
@@ -138,8 +136,7 @@ public class UserRegistrationControllerTest {
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Mickey"))
 				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
 				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com"))
-				.andExpect(jsonPath("$.phone").value("1-800-123-4567"))
-				.andReturn();
+				.andExpect(jsonPath("$.phone").value("1-800-123-4567")).andReturn();
 
 		String updatedJson = result.getResponse().getContentAsString().replace("Mickey", "Minnie");
 
@@ -153,14 +150,12 @@ public class UserRegistrationControllerTest {
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Minnie"))
 				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
 				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com"))
-				.andExpect(jsonPath("$.phone").value("1-800-123-4567"))
-				.andReturn();
+				.andExpect(jsonPath("$.phone").value("1-800-123-4567")).andReturn();
 
 	}
 
 	@Test
 	public void deleteUser() throws Exception {
-
 		String json = "{\"firstName\": \"Nicky\", " + "\"lastName\": \"Nouse\", " + "\"password\": \"minnie\", "
 				+ "\"email\": \"nickey.nouse@disney.com\", " + "\"phone\": \"1-800-123-4567\"}";
 
@@ -170,20 +165,64 @@ public class UserRegistrationControllerTest {
 				.andExpect(status().isCreated()).andDo(document("user")).andReturn();
 
 		String userId = result.getResponse().getContentAsString();
+		
+		result = this.mvc.perform(get("/v1/users/total").with(httpBasic("admin", "admin")))
+				.andExpect(status().isOk()).andDo(document("getTotalUsers")).andReturn();
+		
+		Long a = Long.valueOf(result.getResponse().getContentAsString());
 
 		// use the eventId above to do a GET
 		result = this.mvc.perform(get("/v1/user/" + userId.split(":")[1]).with(httpBasic("admin", "admin")))
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Nicky"))
 				.andExpect(jsonPath("$.lastName").value("Nouse")).andExpect(jsonPath("$.password").value("minnie"))
 				.andExpect(jsonPath("$.email").value("nickey.nouse@disney.com"))
-				.andExpect(jsonPath("$.phone").value("1-800-123-4567"))
-				.andReturn();
+				.andExpect(jsonPath("$.phone").value("1-800-123-4567")).andReturn();
 
 		// delete this user
 		this.mvc.perform(delete("/v1/user/" + userId.split(":")[1]).with(httpBasic("admin", "admin")))
-				.andExpect(status().isNotFound())
-				.andDo(document("deleteUser")).andReturn();
+				.andExpect(status().isNotFound()).andDo(document("deleteUser")).andReturn();
+		
+		
+		result = this.mvc.perform(get("/v1/users/total").with(httpBasic("admin", "admin")))
+				.andExpect(status().isOk()).andDo(document("getTotalUsers")).andReturn();
+		
+		Long b = Long.valueOf(result.getResponse().getContentAsString());
+		
+		Assert.assertTrue(b == a - 1);
 
+	}
+
+	@Test
+	public void testGetTotalUsers() throws Exception {
+		
+		MvcResult result = this.mvc.perform(get("/v1/users/total").with(httpBasic("admin", "admin")))
+				.andExpect(status().isOk()).andDo(document("getTotalUsers")).andReturn();
+		
+		Long a = Long.valueOf(result.getResponse().getContentAsString());
+		
+		
+		String json = "{\"firstName\": \"Mickey\", \"lastName\": \"Mouse\", \"password\": \"minnie\", \"email\": \"mickey.mouse@disney.com\"}";
+
+		
+		result = this.mvc
+				.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
+						.with(httpBasic("admin", "admin")))
+				.andExpect(status().isCreated()).andDo(document("postUser")).andReturn();
+
+		String userId = result.getResponse().getContentAsString();
+
+		// use the eventId above to do a GET
+		this.mvc.perform(get("/v1/user/" + userId.split(":")[1]).with(httpBasic("admin", "admin")))
+				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Mickey"))
+				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
+				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com")).andDo(document("getUser")).andReturn();
+		
+		
+		result = this.mvc.perform(get("/v1/users/total").with(httpBasic("admin", "admin")))
+				.andExpect(status().isOk()).andDo(document("getTotalUsers")).andReturn();
+		Long b = Long.valueOf(result.getResponse().getContentAsString());
+		
+		Assert.assertTrue(b == a + 1);
 	}
 
 	@Test

@@ -1,6 +1,7 @@
 package org.dharma.services;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.dharma.dao.RegistrationDao;
 import org.dharma.exception.EventException;
@@ -12,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import lombok.extern.apachecommons.CommonsLog;
 
 @CommonsLog
-public class EventUserRegistrationService {
+public class RegistrationService {
 	@Autowired
 	RegistrationDao regDao;
 
 	@Autowired
-	UserRegistrationService userRegService;
+	UserService userRegService;
 
 	@Autowired
 	EventService eventService;
@@ -40,7 +41,7 @@ public class EventUserRegistrationService {
 	}
 
 	public void deleteEventsWithUser(String userId) throws Exception {
-		getEventsWithUser(userId).stream().forEach(reg -> {
+		getRegistrationIdsWithUser(userId).stream().forEach(reg -> {
 			try {
 				regDao.delete(reg);
 			} catch (Exception e) {
@@ -49,11 +50,31 @@ public class EventUserRegistrationService {
 		});
 	}
 
-	public Set<String> getEventsWithUser(String userId) {
+	public Set<String> getRegistrationIdsWithUser(String userId) {
 		return regDao.loadByUser(userId);
+	}
+
+	public Set<Registration> getRegistrationsWithUser(String userId) {
+		return regDao.loadByUser(userId).stream().map(reg -> 
+			
+				{
+					try {
+						return regDao.load(reg);
+					}
+					catch(Exception e) {
+						log.error(e.getMessage());
+						return null;
+					}
+				}
+			
+		).collect(Collectors.toSet());
 	}
 
 	public Registration getRegistration(String regId) throws RegisterException {
 		return regDao.load(regId);
+	}
+
+	public Long getRegistrations() {
+		return regDao.getTotalRegistrations();
 	}
 }
