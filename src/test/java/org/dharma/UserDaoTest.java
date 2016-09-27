@@ -1,7 +1,7 @@
 package org.dharma;
 
-import org.dharma.dao.EventDAO;
-import org.dharma.dao.UserDAO;
+import org.dharma.dao.EventDao;
+import org.dharma.dao.UserDao;
 import org.dharma.exception.UserException;
 import org.dharma.model.Event;
 import org.dharma.model.User;
@@ -19,7 +19,7 @@ public class UserDaoTest {
 	private static String USER_ID_PREFIX = "userId:";
 
 	@Autowired
-	UserDAO userDao;
+	UserDao userDao;
 
 	@Test
 	public void testSaveEvent() {

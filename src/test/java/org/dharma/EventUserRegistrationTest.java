@@ -1,8 +1,8 @@
 package org.dharma;
 
-import org.dharma.dao.EventDAO;
+import org.dharma.dao.EventDao;
 import org.dharma.dao.RegistrationDao;
-import org.dharma.dao.UserDAO;
+import org.dharma.dao.UserDao;
 import org.dharma.exception.RegisterException;
 import org.dharma.model.Event;
 import org.dharma.model.Registration;

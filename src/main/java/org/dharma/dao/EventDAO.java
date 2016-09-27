@@ -6,7 +6,7 @@ import java.util.Map;
 import org.dharma.exception.EventException;
 import org.dharma.model.Event;
 
-public interface EventDAO {
+public interface EventDao {
 	public String save(Event event, String createdBy);
 	public Event get(String eventId) throws EventException;
 	public void delete(String eventId) throws EventException;

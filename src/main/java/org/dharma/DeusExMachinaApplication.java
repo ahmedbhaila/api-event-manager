@@ -4,12 +4,12 @@ import java.net.URI;
 
 import javax.annotation.PostConstruct;
 
-import org.dharma.dao.EventDAO;
-import org.dharma.dao.RedisEventDAO;
-import org.dharma.dao.RedisRegistrationDao;
-import org.dharma.dao.RedisUserDAO;
+import org.dharma.dao.EventDao;
+import org.dharma.dao.EventDaoImpl;
+import org.dharma.dao.RegistrationDaoImpl;
+import org.dharma.dao.UserDaoImpl;
 import org.dharma.dao.RegistrationDao;
-import org.dharma.dao.UserDAO;
+import org.dharma.dao.UserDao;
 import org.dharma.services.EventService;
 import org.dharma.services.RegistrationService;
 import org.dharma.services.RedisUserDetailsService;
@@ -17,6 +17,7 @@ import org.dharma.services.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -42,7 +43,6 @@ public class DeusExMachinaApplication {
 		JedisConnectionFactory jedisFactory = new JedisConnectionFactory();
 		jedisFactory.setHostName(redisUri.getHost());
 		jedisFactory.setPort(redisUri.getPort());
-		//jedisFactory.setDatabase(2);
 		jedisFactory.setPassword(redisUri.getUserInfo().split(":", 2)[1]);
 		return jedisFactory;
 	}
@@ -64,18 +64,18 @@ public class DeusExMachinaApplication {
 	}
 
 	@Bean
-	public EventDAO redisEventDAO() {
-		return new RedisEventDAO();
+	public EventDao redisEventDAO() {
+		return new EventDaoImpl();
 	}
 
 	@Bean
-	public UserDAO redisUserDao() {
-		return new RedisUserDAO();
+	public UserDao redisUserDao() {
+		return new UserDaoImpl();
 	}
 
 	@Bean
 	public RegistrationDao registrationDao() {
-		return new RedisRegistrationDao();
+		return new RegistrationDaoImpl();
 	}
 
 	@Bean

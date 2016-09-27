@@ -6,7 +6,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 import org.dharma.ApplicationConstants;
-import org.dharma.dao.RedisUserDAO.UserIdKeyGenerator;
+import org.dharma.dao.UserDaoImpl.UserIdKeyGenerator;
 import org.dharma.exception.RegisterException;
 import org.dharma.model.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import lombok.extern.apachecommons.CommonsLog;
 
 @CommonsLog
-public class RedisRegistrationDao implements RegistrationDao {
+public class RegistrationDaoImpl implements RegistrationDao {
 	private static HashOperations<String, String, String> opsForHash;
 	private static ZSetOperations<String, String> opsForZSet;
 	private static ValueOperations<String, String> opsForValue;

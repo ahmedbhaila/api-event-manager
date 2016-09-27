@@ -2,7 +2,7 @@ package org.dharma;
 
 import java.util.List;
 
-import org.dharma.dao.EventDAO;
+import org.dharma.dao.EventDao;
 import org.dharma.exception.EventException;
 import org.dharma.model.Event;
 import org.junit.Assert;
@@ -19,7 +19,7 @@ public class EventDaoTest {
 	private static String EVENT_ID_PREFIX = "eventId:";
 
 	@Autowired
-	EventDAO eventDao;
+	EventDao eventDao;
 
 	@Test
 	public void testSaveEvent() {

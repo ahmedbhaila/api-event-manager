@@ -1,6 +1,6 @@
 package org.dharma.services;
 
-import org.dharma.dao.UserDAO;
+import org.dharma.dao.UserDao;
 import org.dharma.exception.UserException;
 import org.dharma.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UserService {
 	
 	@Autowired
-	UserDAO userDao;
+	UserDao userDao;
 	
 	@Autowired
 	RegistrationService regEventUserService;

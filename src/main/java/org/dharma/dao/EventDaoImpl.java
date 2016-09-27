@@ -22,7 +22,7 @@ import lombok.extern.apachecommons.CommonsLog;
 
 
 @CommonsLog
-public class RedisEventDAO implements EventDAO {
+public class EventDaoImpl implements EventDao {
 	
 	private static HashOperations<String, String, String> opsForHash;
 	private static ZSetOperations<String, String> opsForZSet;

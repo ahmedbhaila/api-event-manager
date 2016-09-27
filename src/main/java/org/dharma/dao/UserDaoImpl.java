@@ -16,7 +16,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import lombok.extern.apachecommons.CommonsLog;
 
 @CommonsLog
-public class RedisUserDAO implements UserDAO {
+public class UserDaoImpl implements UserDao {
 	
 	private static HashOperations<String, String, String> opsForHash;
 	private static ZSetOperations<String, String> opsForZSet;

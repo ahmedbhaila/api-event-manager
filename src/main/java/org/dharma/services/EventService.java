@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import org.dharma.dao.EventDAO;
+import org.dharma.dao.EventDao;
 import org.dharma.exception.EventException;
 import org.dharma.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import lombok.extern.apachecommons.CommonsLog;
 public class EventService {
 	
 	@Autowired
-	EventDAO eventDAO;
+	EventDao eventDAO;
 	
 	public String saveEvent(Event e, String createdBy) {
 		//e.setDateTime(String.valueOf(Instant.parse(e.getDateTime()).toEpochMilli()));

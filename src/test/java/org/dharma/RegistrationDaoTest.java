@@ -1,8 +1,8 @@
 package org.dharma;
 
-import org.dharma.dao.EventDAO;
+import org.dharma.dao.EventDao;
 import org.dharma.dao.RegistrationDao;
-import org.dharma.dao.UserDAO;
+import org.dharma.dao.UserDao;
 import org.dharma.exception.RegisterException;
 import org.dharma.exception.UserException;
 import org.dharma.model.Event;
@@ -22,10 +22,10 @@ public class RegistrationDaoTest {
 	private static String REGISTRATION_ID_PREFIX = "registrationId:";
 
 	@Autowired
-	UserDAO userDao;
+	UserDao userDao;
 
 	@Autowired
-	EventDAO eventDao;
+	EventDao eventDao;
 
 	@Autowired
 	RegistrationDao regDao;

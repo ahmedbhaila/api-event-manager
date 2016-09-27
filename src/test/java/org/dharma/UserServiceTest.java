@@ -1,6 +1,6 @@
 package org.dharma;
 
-import org.dharma.dao.UserDAO;
+import org.dharma.dao.UserDao;
 import org.dharma.exception.UserException;
 import org.dharma.model.User;
 import org.dharma.services.UserService;
