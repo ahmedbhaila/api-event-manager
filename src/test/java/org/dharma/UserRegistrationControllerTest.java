@@ -23,11 +23,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-
-import static org.hamcrest.Matchers.equalTo;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -64,15 +59,12 @@ public class UserRegistrationControllerTest {
 	@Test
 	public void postMandatoryParametersForCreatingUser() throws Exception {
 
-		// String json = "{\"firstName\": \"Mickey\", \"lastName\": \"Mouse\",
-		// \"password\": \"minnie\", \"email\": \"mickey.mouse@disney.com\"}";
-
 		String json = "{\"firstName\": \"Mickey\", \"lastName\": \"Mouse\", \"password\": \"minnie\", \"email\": \"mickey.mouse@disney.com\"}";
 
 		MvcResult result = this.mvc
 				.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("user")).andReturn();
+				.andExpect(status().isCreated()).andDo(document("postUser")).andReturn();
 
 		String userId = result.getResponse().getContentAsString();
 
@@ -80,7 +72,9 @@ public class UserRegistrationControllerTest {
 		this.mvc.perform(get("/v1/user/" + userId.split(":")[1]).with(httpBasic("admin", "admin")))
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Mickey"))
 				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
-				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com")).andDo(document("user")).andReturn();
+				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com"))
+				.andDo(document("getUser"))
+				.andReturn();
 	}
 
 	@Test
@@ -92,7 +86,7 @@ public class UserRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("user")).andReturn();
+				.andExpect(status().isCreated()).andDo(document("postAllUser")).andReturn();
 
 		String userId = result.getResponse().getContentAsString();
 
@@ -101,7 +95,8 @@ public class UserRegistrationControllerTest {
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Mickey"))
 				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
 				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com"))
-				.andExpect(jsonPath("$.phone").value("1-800-123-4567")).andDo(document("user")).andReturn();
+				.andExpect(jsonPath("$.phone").value("1-800-123-4567"))
+				.andReturn();
 	}
 
 	@Test
@@ -111,7 +106,7 @@ public class UserRegistrationControllerTest {
 				+ "\"email\": \"mickey.mouse@disney.com\", " + "\"phone\": \"1-800-123-4567\"}";
 
 		this.mvc.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
-				.with(httpBasic("admin", "admin"))).andExpect(status().isBadRequest()).andDo(document("user"));
+				.with(httpBasic("admin", "admin"))).andExpect(status().isBadRequest());
 
 	}
 
@@ -122,8 +117,7 @@ public class UserRegistrationControllerTest {
 				+ "\"phone\": \"1-800-123-4567\"}";
 
 		this.mvc.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
-				.with(httpBasic("admin", "admin"))).andExpect(status().isBadRequest()).andDo(document("user"));
-
+				.with(httpBasic("admin", "admin"))).andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -144,21 +138,23 @@ public class UserRegistrationControllerTest {
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Mickey"))
 				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
 				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com"))
-				.andExpect(jsonPath("$.phone").value("1-800-123-4567")).andDo(document("user")).andReturn();
+				.andExpect(jsonPath("$.phone").value("1-800-123-4567"))
+				.andReturn();
 
 		String updatedJson = result.getResponse().getContentAsString().replace("Mickey", "Minnie");
 
 		result = this.mvc
 				.perform(put("/v1/user/" + userId.split(":")[1]).contentType(MediaType.APPLICATION_JSON)
 						.content(updatedJson).with(httpBasic("admin", "admin")))
-				.andExpect(status().isNoContent()).andDo(document("user")).andReturn();
+				.andExpect(status().isNoContent()).andDo(document("putUser")).andReturn();
 
 		// do a GET again
 		result = this.mvc.perform(get("/v1/user/" + userId.split(":")[1]).with(httpBasic("admin", "admin")))
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Minnie"))
 				.andExpect(jsonPath("$.lastName").value("Mouse")).andExpect(jsonPath("$.password").value("minnie"))
 				.andExpect(jsonPath("$.email").value("mickey.mouse@disney.com"))
-				.andExpect(jsonPath("$.phone").value("1-800-123-4567")).andDo(document("user")).andReturn();
+				.andExpect(jsonPath("$.phone").value("1-800-123-4567"))
+				.andReturn();
 
 	}
 
@@ -180,12 +176,13 @@ public class UserRegistrationControllerTest {
 				.andExpect(status().isFound()).andExpect(jsonPath("$.firstName").value("Nicky"))
 				.andExpect(jsonPath("$.lastName").value("Nouse")).andExpect(jsonPath("$.password").value("minnie"))
 				.andExpect(jsonPath("$.email").value("nickey.nouse@disney.com"))
-				.andExpect(jsonPath("$.phone").value("1-800-123-4567")).andDo(document("user")).andReturn();
+				.andExpect(jsonPath("$.phone").value("1-800-123-4567"))
+				.andReturn();
 
 		// delete this user
 		this.mvc.perform(delete("/v1/user/" + userId.split(":")[1]).with(httpBasic("admin", "admin")))
 				.andExpect(status().isNotFound())
-				.andDo(document("user")).andReturn();
+				.andDo(document("deleteUser")).andReturn();
 
 	}
 

@@ -1,8 +1,154 @@
 [[overview-headers]]
-== Headers
+== Sample Requests For Event endpoint
  
-Every response has the following header(s):
+1. Create a new Event with Mandatory parameters
  
-include::{snippets}/index/curl-request.adoc[]
-include::{snippets}/index/http-request.adoc[]
-include::{snippets}/index/http-response.adoc[]
+include::{snippets}/postEvent/curl-request.adoc[]
+include::{snippets}/postEvent/http-request.adoc[]
+include::{snippets}/postEvent/http-response.adoc[]
+
+2. Get a created Event
+
+include::{snippets}/getEvent/curl-request.adoc[]
+include::{snippets}/getEvent/http-request.adoc[]
+include::{snippets}/getEvent/http-response.adoc[]
+
+3. Create a new Event with all parameters
+
+include::{snippets}/postAllEvent/curl-request.adoc[]
+include::{snippets}/postAllEvent/http-request.adoc[]
+include::{snippets}/postAllEvent/http-response.adoc[]
+
+4. Update an Event
+
+include::{snippets}/putEvent/curl-request.adoc[]
+include::{snippets}/putEvent/http-request.adoc[]
+include::{snippets}/putEvent/http-response.adoc[]
+
+5. Deleting an Event
+
+include::{snippets}/deleteEvent/curl-request.adoc[]
+include::{snippets}/deleteEvent/http-request.adoc[]
+include::{snippets}/deleteEvent/http-response.adoc[]
+
+6. Get Events with default pagination (all)
+
+include::{snippets}/getPaginatedEventDefault/curl-request.adoc[]
+include::{snippets}/getPaginatedEventDefault/http-request.adoc[]
+include::{snippets}/getPaginatedEventDefault/http-response.adoc[]
+
+7. Get Events Paginated (Single Record)
+
+include::{snippets}/getPaginatedEventSingle/curl-request.adoc[]
+include::{snippets}/getPaginatedEventSingle/http-request.adoc[]
+include::{snippets}/getPaginatedEventSingle/http-response.adoc[]
+
+8. Get Events paginated (Multiple Records)
+
+include::{snippets}/getPaginatedEventMultiple/curl-request.adoc[]
+include::{snippets}/getPaginatedEventMultiple/http-request.adoc[]
+include::{snippets}/getPaginatedEventMultiple/http-response.adoc[]
+
+9. Filter events by public type
+
+include::{snippets}/getPublicEvents/curl-request.adoc[]
+include::{snippets}/getPublicEvents/http-request.adoc[]
+include::{snippets}/getPublicEvents/http-response.adoc[]
+
+10. Filter events by geoLocation
+
+include::{snippets}/GetSpecificGeoLocationEvents/curl-request.adoc[]
+include::{snippets}/GetSpecificGeoLocationEvents/http-request.adoc[]
+include::{snippets}/GetSpecificGeoLocationEvents/http-response.adoc[]
+
+11. Filter events by name
+
+include::{snippets}/GetSpecificNamedEvents/curl-request.adoc[]
+include::{snippets}/GetSpecificNamedEvents/http-request.adoc[]
+include::{snippets}/GetSpecificNamedEvents/http-response.adoc[]
+
+12. Filter events by Location name
+
+include::{snippets}/getSpecificLocationEvents/curl-request.adoc[]
+include::{snippets}/getSpecificLocationEvents/http-request.adoc[]
+include::{snippets}/getSpecificLocationEvents/http-response.adoc[]
+
+13. Multi filter - Events that are in a location and are private
+
+include::{snippets}/AllEventsInALocationThatArePrivate/curl-request.adoc[]
+include::{snippets}/AllEventsInALocationThatArePrivate/http-request.adoc[]
+include::{snippets}/AllEventsInALocationThatArePrivate/http-response.adoc[]
+
+14. Multi filter - Events that are in a location and are private with pagination
+
+include::{snippets}/AllEventsInALocationThatArePrivatePaginated/curl-request.adoc[]
+include::{snippets}/AllEventsInALocationThatArePrivatePaginated/http-request.adoc[]
+include::{snippets}/AllEventsInALocationThatArePrivatePaginated/http-response.adoc[]
+
+
+== Sample Requests For User endpoint
+
+1. Create a new User with Mandatory parameters
+ 
+include::{snippets}/postUser/curl-request.adoc[]
+include::{snippets}/postUser/http-request.adoc[]
+include::{snippets}/postUser/http-response.adoc[]
+
+2. Get a created User
+
+include::{snippets}/getUser/curl-request.adoc[]
+include::{snippets}/getUser/http-request.adoc[]
+include::{snippets}/getUser/http-response.adoc[]
+
+3. Create a new User with all parameters
+
+include::{snippets}/postAllUser/curl-request.adoc[]
+include::{snippets}/postAllUser/http-request.adoc[]
+include::{snippets}/postAllUser/http-response.adoc[]
+
+4. Update a User
+
+include::{snippets}/putUser/curl-request.adoc[]
+include::{snippets}/putUser/http-request.adoc[]
+include::{snippets}/putUser/http-response.adoc[]
+
+5. Deleting a User
+
+include::{snippets}/deleteUser/curl-request.adoc[]
+include::{snippets}/deleteUser/http-request.adoc[]
+include::{snippets}/deleteUser/http-response.adoc[]
+
+== Sample Requests for Registering a User with an Event
+
+1. Register an existing user to an existing event
+ 
+include::{snippets}/postUserRegistration/curl-request.adoc[]
+include::{snippets}/postUserRegistration/http-request.adoc[]
+include::{snippets}/postUserRegistration/http-response.adoc[]
+
+2. Get a registered event
+
+include::{snippets}/getUserRegistration/curl-request.adoc[]
+include::{snippets}/getUserRegistration/http-request.adoc[]
+include::{snippets}/getUserRegistration/http-response.adoc[]
+
+5. Deleting a User Registered Event
+
+include::{snippets}/deleteUserEventRegistration/curl-request.adoc[]
+include::{snippets}/deleteUserEventRegistration/http-request.adoc[]
+include::{snippets}/deleteUserEventRegistration/http-response.adoc[]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

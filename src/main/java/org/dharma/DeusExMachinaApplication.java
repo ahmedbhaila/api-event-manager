@@ -31,6 +31,7 @@ public class DeusExMachinaApplication {
 
 	@Value("${http.security.admin.password}")
 	String adminPassword;
+	
 
 	@Bean
 	public JedisConnectionFactory jedisConnectionFactory() throws Exception {

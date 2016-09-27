@@ -27,6 +27,7 @@ apply plugin: 'spring-boot'
 	
 
 test { 
+	environment 'REDISCLOUD_URL', 'redis://localhost:6379'
 	outputs.dir snippetsDir
 }
 

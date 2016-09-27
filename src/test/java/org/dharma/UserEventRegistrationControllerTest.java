@@ -3,7 +3,6 @@ package org.dharma;
 import org.dharma.controller.EventRegistrationController;
 import org.dharma.controller.UserEventRegistrationController;
 import org.dharma.controller.UserRegistrationController;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,10 +23,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.*;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-
-import static org.hamcrest.Matchers.equalTo;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,7 +40,7 @@ public class UserEventRegistrationControllerTest {
 
 	@Autowired
 	JedisConnectionFactory jedisConnection;
-	
+
 	@Autowired
 	RedisTemplate<String, String> redisTemplate;
 
@@ -56,9 +51,6 @@ public class UserEventRegistrationControllerTest {
 	public void setUp() {
 		this.mvc = MockMvcBuilders.webAppContextSetup(this.context).apply(springSecurity())
 				.apply(documentationConfiguration(this.restDocumentation)).build();
-		
-		
-
 		jedisConnection.getConnection().flushDb();
 		redisTemplate.opsForValue().set("admin", "admin");
 		jedisConnection.getConnection().close();
@@ -73,7 +65,8 @@ public class UserEventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("userEventRegister")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		String eventId = result.getResponse().getContentAsString();
 
@@ -83,7 +76,8 @@ public class UserEventRegistrationControllerTest {
 		result = this.mvc
 				.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("userEventRegister")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		String userId = result.getResponse().getContentAsString();
 
@@ -93,14 +87,17 @@ public class UserEventRegistrationControllerTest {
 		result = this.mvc
 				.perform(post("/v1/register").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("userEventRegister")).andReturn();
+				.andExpect(status().isCreated())
+				.andDo(document("postUserRegistration")).andReturn();
 
 		String registerId = result.getResponse().getContentAsString();
 
 		// use the eventId above to do a GET
 		this.mvc.perform(get("/v1/register/" + registerId.split(":")[1]).with(httpBasic("admin", "admin")))
 				.andExpect(status().isFound()).andExpect(jsonPath("$.eventId").value(eventId))
-				.andExpect(jsonPath("$.userId").value(userId)).andDo(document("userEventRegister")).andReturn();
+				.andExpect(jsonPath("$.userId").value(userId))
+				.andDo(document("getUserRegistration"))
+				.andReturn();
 	}
 
 	@Test
@@ -112,7 +109,8 @@ public class UserEventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("userEventRegister")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		// create a user
 		json = "{\"firstName\": \"Mickey\", \"lastName\": \"Mouse\", \"password\": \"minnie\", \"email\": \"mickey.mouse@disney.com\"}";
@@ -120,14 +118,13 @@ public class UserEventRegistrationControllerTest {
 		result = this.mvc
 				.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("userEventRegister")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		json = "{\"userId\": \"" + "\", \"eventId\": \"" + "\"}";
 
 		this.mvc.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
-				.with(httpBasic("admin", "admin"))).andExpect(status().isBadRequest())
-				.andDo(document("userEventRegister"));
-
+				.with(httpBasic("admin", "admin"))).andExpect(status().isBadRequest());
 	}
 
 	@Test
@@ -139,7 +136,8 @@ public class UserEventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("userEventRegister")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		String eventId = result.getResponse().getContentAsString();
 
@@ -149,7 +147,8 @@ public class UserEventRegistrationControllerTest {
 		result = this.mvc
 				.perform(post("/v1/user").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("userEventRegister")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		String userId = result.getResponse().getContentAsString();
 
@@ -159,18 +158,21 @@ public class UserEventRegistrationControllerTest {
 		result = this.mvc
 				.perform(post("/v1/register").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("userEventRegister")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		String registerId = result.getResponse().getContentAsString();
 
 		// use the eventId above to do a GET
 		this.mvc.perform(get("/v1/register/" + registerId.split(":")[1]).with(httpBasic("admin", "admin")))
 				.andExpect(status().isFound()).andExpect(jsonPath("$.eventId").value(eventId))
-				.andExpect(jsonPath("$.userId").value(userId)).andDo(document("userEventRegister")).andReturn();
+				.andExpect(jsonPath("$.userId").value(userId))
+				.andReturn();
 
 		// delete this registration
 		this.mvc.perform(delete("/v1/register/" + registerId.split(":")[1]).with(httpBasic("admin", "admin")))
-				.andExpect(status().isNoContent());
+				.andExpect(status().isNoContent())
+				.andDo(document("deleteUserEventRegistration"));
 
 	}
 

@@ -77,7 +77,7 @@ public class EventRegistrationControllerTest {
 				.andExpect(jsonPath("$.description").value("test description"))
 				.andExpect(jsonPath("$.location").value("Chicago,IL"))
 				// .andExpect(jsonPath("$.dateTime").value("2017-09-26T20:11:43.00Z"))
-				.andExpect(jsonPath("$.isPublic").value("false")).andDo(document("postEvent")).andReturn();
+				.andExpect(jsonPath("$.isPublic").value("false"));
 	}
 
 	@Test
@@ -103,7 +103,9 @@ public class EventRegistrationControllerTest {
 				.andExpect(jsonPath("$.webUrl").value("http://localhost/img"))
 				.andExpect(jsonPath("$.photo").value("img")).andExpect(jsonPath("$.geoLocation").value("123,123"))
 				// .andExpect(jsonPath("$.dateTime").value("2017-09-26T20:11:43.00Z"))
-				.andExpect(jsonPath("$.isPublic").value("false")).andDo(document("postAllEvent")).andReturn();
+				.andExpect(jsonPath("$.isPublic")
+				.value("false"))
+				.andDo(document("getEvent"));
 	}
 
 	@Test
@@ -115,7 +117,6 @@ public class EventRegistrationControllerTest {
 
 		this.mvc.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 				.with(httpBasic("admin", "admin"))).andExpect(status().isBadRequest());
-		//.andDo(document("event"));
 
 	}
 
@@ -129,7 +130,6 @@ public class EventRegistrationControllerTest {
 
 		this.mvc.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 				.with(httpBasic("admin", "admin"))).andExpect(status().isBadRequest());
-		//.andDo(document("event"));
 
 	}
 
@@ -144,7 +144,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("putEvent")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		String eventId = result.getResponse().getContentAsString();
 
@@ -156,25 +157,26 @@ public class EventRegistrationControllerTest {
 				.andExpect(jsonPath("$.webUrl").value("http://localhost/img"))
 				.andExpect(jsonPath("$.photo").value("img")).andExpect(jsonPath("$.geoLocation").value("123,123"))
 				// .andExpect(jsonPath("$.dateTime").value("2017-09-26T20:11:43.00Z"))
-				.andExpect(jsonPath("$.isPublic").value("false")).andDo(document("putEvent")).andReturn();
+				.andExpect(jsonPath("$.isPublic").value("false")).andReturn();
 
 		String updatedJson = result.getResponse().getContentAsString().replace("test description",
 				"test updated description");
 
-		result = this.mvc
+		this.mvc
 				.perform(put("/v1/event/" + eventId.split(":")[1]).contentType(MediaType.APPLICATION_JSON)
 						.content(updatedJson).with(httpBasic("admin", "admin")))
 				.andExpect(status().isNoContent()).andDo(document("putEvent")).andReturn();
 
 		// do a GET again
-		result = this.mvc.perform(get("/v1/event/" + eventId.split(":")[1]).with(httpBasic("admin", "admin")))
+		this.mvc.perform(get("/v1/event/" + eventId.split(":")[1]).with(httpBasic("admin", "admin")))
 				.andExpect(status().isFound()).andExpect(jsonPath("$.name").value("testEvent3"))
 				.andExpect(jsonPath("$.description").value("test updated description"))
 				.andExpect(jsonPath("$.location").value("Chicago,IL"))
 				.andExpect(jsonPath("$.webUrl").value("http://localhost/img"))
 				.andExpect(jsonPath("$.photo").value("img")).andExpect(jsonPath("$.geoLocation").value("123,123"))
 				// .andExpect(jsonPath("$.dateTime").value("2017-09-26T20:11:43.00Z"))
-				.andExpect(jsonPath("$.isPublic").value("false")).andDo(document("putEvent")).andReturn();
+				.andExpect(jsonPath("$.isPublic").value("false"))
+				.andReturn();
 
 	}
 
@@ -189,7 +191,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("deleteEvent")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		String eventId = result.getResponse().getContentAsString();
 
@@ -201,7 +204,8 @@ public class EventRegistrationControllerTest {
 				.andExpect(jsonPath("$.webUrl").value("http://localhost/img"))
 				.andExpect(jsonPath("$.photo").value("img")).andExpect(jsonPath("$.geoLocation").value("123,123"))
 				// .andExpect(jsonPath("$.dateTime").value("2017-09-26T20:11:43.00Z"))
-				.andExpect(jsonPath("$.isPublic").value("false")).andDo(document("deleteEvent")).andReturn();
+				.andExpect(jsonPath("$.isPublic").value("false"))
+				.andReturn();
 
 		// delete this event
 		this.mvc.perform(delete("/v1/event/" + eventId.split(":")[1]).with(httpBasic("admin", "admin")))
@@ -229,7 +233,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("getPaginatedEvent")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		result.getResponse().getContentAsString();
 
@@ -237,7 +242,7 @@ public class EventRegistrationControllerTest {
 		// do a GET for events, count should be >= 1
 
 		this.mvc.perform(get("/v1/events").with(httpBasic("admin", "admin"))).andExpect(status().isFound())
-				.andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1)))).andDo(document("getPaginatedEvent")).andReturn();
+				.andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1)))).andDo(document("getPaginatedEventDefault")).andReturn();
 
 	}
 
@@ -253,7 +258,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("getPaginatedEventSingle")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		result.getResponse().getContentAsString();
 
@@ -261,7 +267,7 @@ public class EventRegistrationControllerTest {
 		// do a GET for events, count should be >= 1
 
 		this.mvc.perform(get("/v1/events?startIndex=1&pageSize=1").with(httpBasic("admin", "admin")))
-				.andExpect(status().isFound()).andExpect(jsonPath("$", hasSize(equalTo(1)))).andDo(document("getPaginatedEvent"))
+				.andExpect(status().isFound()).andExpect(jsonPath("$", hasSize(equalTo(1)))).andDo(document("getPaginatedEventSingle"))
 				.andReturn();
 
 	}
@@ -280,7 +286,8 @@ public class EventRegistrationControllerTest {
 			MvcResult result = this.mvc
 					.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 							.with(httpBasic("admin", "admin")))
-					.andExpect(status().isCreated()).andDo(document("getPaginatedEventMultiple")).andReturn();
+					.andExpect(status().isCreated())
+					.andReturn();
 
 			result.getResponse().getContentAsString();
 		}
@@ -306,7 +313,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("event")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		result.getResponse().getContentAsString();
 
@@ -314,7 +322,7 @@ public class EventRegistrationControllerTest {
 		// do a GET for events, count should be 0
 
 		this.mvc.perform(get("/v1/events?startIndex=-1&pageSize=3").with(httpBasic("admin", "admin")))
-				.andExpect(status().isFound()).andExpect(jsonPath("$", hasSize(equalTo(0)))).andDo(document("event"))
+				.andExpect(status().isFound()).andExpect(jsonPath("$", hasSize(equalTo(0))))
 				.andReturn();
 
 	}
@@ -333,7 +341,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("getPublicEvents")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		result.getResponse().getContentAsString();
 
@@ -360,7 +369,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("getSpecificLocationEvents")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		result.getResponse().getContentAsString();
 
@@ -371,7 +381,8 @@ public class EventRegistrationControllerTest {
 		this.mvc.perform(get("/v1/events?searchCriteria=location:Burbank,CA").with(httpBasic("admin", "admin")))
 				.andExpect(status().isFound()).andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
 				// .andExpect(jsonPath("$..location").value("Burbank,CA"))
-				.andDo(document("getSpecificLocationEvents")).andReturn();
+				.andDo(document("getSpecificLocationEvents"))
+				.andReturn();
 
 	}
 
@@ -387,7 +398,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("GetSpecificGeoLocationEvents")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		result.getResponse().getContentAsString();
 
@@ -414,7 +426,8 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("GetSpecificNamedEvents")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		result.getResponse().getContentAsString();
 
@@ -431,7 +444,7 @@ public class EventRegistrationControllerTest {
 
 	// Test for multi-filters
 	@Test
-	public void testAllEventsInChicagoThatArePrivate() throws Exception {
+	public void testAllEventsInALocationThatArePrivate() throws Exception {
 
 		// add a location based event
 		String json = "{\"name\": \"Exclusive Event\", " + "\"geoLocation\": \"22,21\", "
@@ -442,27 +455,29 @@ public class EventRegistrationControllerTest {
 		MvcResult result = this.mvc
 				.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
 						.with(httpBasic("admin", "admin")))
-				.andExpect(status().isCreated()).andDo(document("AllEventsInChicagoThatArePrivate")).andReturn();
+				.andExpect(status().isCreated())
+				.andReturn();
 
 		result.getResponse().getContentAsString();
 
 		// paginated to show
 		// do a GET for events, count should be 0
 		// // Search criteria format:
-		// ?searchCriteria=location:Chicago,IL;isPublic=false
+		// ?searchCriteria=location:Chicago,IL;name:Exclusive Event
 
 		this.mvc.perform(get("/v1/events?searchCriteria=location:Chicago,IL;name:Exclusive Event")
 				.with(httpBasic("admin", "admin"))).andExpect(status().isFound())
 				.andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
 				// .andExpect(jsonPath("$..location").value("Chicago, IL"))
 				// .andExpect(jsonPath("$..isPublic").value("false"))
-				.andDo(document("AllEventsInChicagoThatArePrivate")).andReturn();
+				.andDo(document("AllEventsInALocationThatArePrivate"))
+				.andReturn();
 
 	}
 
 	// Test for multi-filters
 	@Test
-	public void testAllEventsInChicagoThatArePrivatePaginated() throws Exception {
+	public void testAllEventsInALocationThatArePrivatePaginated() throws Exception {
 
 		for (int i = 0; i < 3; i++) {
 			String json = "{\"name\": \"Exclusive Event\", " + "\"geoLocation\": \"22,21\", "
@@ -471,7 +486,7 @@ public class EventRegistrationControllerTest {
 					+ "\"location\": \"Chicago,IL\", \"dateTime\": \"2017-09-26T20:11:43.00Z\", \"isPublic\" : \"true\"}";
 
 			this.mvc.perform(post("/v1/event").contentType(MediaType.APPLICATION_JSON).content(json)
-					.with(httpBasic("admin", "admin"))).andExpect(status().isCreated()).andDo(document("AllEventsInChicagoThatArePrivatePaginated"))
+					.with(httpBasic("admin", "admin"))).andExpect(status().isCreated())
 					.andReturn();
 
 		}
@@ -486,7 +501,7 @@ public class EventRegistrationControllerTest {
 				.andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(3))))
 				// .andExpect(jsonPath("$..location").value("Chicago, IL"))
 				// .andExpect(jsonPath("$..isPublic").value("false"))
-				.andDo(document("AllEventsInChicagoThatArePrivatePaginated")).andReturn();
+				.andDo(document("AllEventsInALocationThatArePrivatePaginated")).andReturn();
 
 	}
 	
