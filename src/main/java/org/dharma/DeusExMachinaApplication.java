@@ -1,5 +1,7 @@
 package org.dharma;
 
+import java.net.URI;
+
 import javax.annotation.PostConstruct;
 
 import org.dharma.dao.EventDAO;
@@ -32,12 +34,12 @@ public class DeusExMachinaApplication {
 
 	@Bean
 	public JedisConnectionFactory jedisConnectionFactory() throws Exception {
-		// URI redisUri = new URI(System.getenv("REDIS_URL"));
+		URI redisUri = new URI(System.getenv("REDISCLOUD_URL"));
 		JedisConnectionFactory jedisFactory = new JedisConnectionFactory();
-		jedisFactory.setHostName("localhost");
-		jedisFactory.setPort(6379);
-		jedisFactory.setDatabase(2);
-		// jedisFactory.setPassword(redisUri.getUserInfo().split(":", 2)[1]);
+		jedisFactory.setHostName(redisUri.getHost());
+		jedisFactory.setPort(redisUri.getPort());
+		//jedisFactory.setDatabase(2);
+		jedisFactory.setPassword(redisUri.getUserInfo().split(":", 2)[1]);
 		return jedisFactory;
 	}
 
