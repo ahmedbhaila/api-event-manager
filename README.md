@@ -29,6 +29,6 @@ Alternatively, you can also run the application using gradle bootRun:
 
 > gradle bootRun
 
-If you are using an IDE to setup this project, you will need to install Project Lombok which is used to automatically generate Constructor, Builder Pattern object amongst other things. Please refer to https://projectlombok.org/ for installation.
+If you are using an IDE to setup this project, you will need to install Project Lombok which is used to automatically generate Constructors, Builder Pattern object among other things. Please refer to https://projectlombok.org/ for installation.
 
 
