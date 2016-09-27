@@ -18,6 +18,10 @@ import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 
+import lombok.extern.apachecommons.CommonsLog;
+
+
+@CommonsLog
 public class RedisEventDAO implements EventDAO {
 	
 	private static HashOperations<String, String, String> opsForHash;
@@ -47,13 +51,16 @@ public class RedisEventDAO implements EventDAO {
 
 	@Override
 	public String save(Event event, String createdBy) {
+		log.debug("Saving event");
 		String eventKey = EventIdKeyGenerator.generateEventId();
 		persist(eventKey, createdBy, event);
 		saveIndexes(eventKey, event);
+		log.debug("Event created with key " + eventKey);
 		return eventKey;
 	}
 	
 	private void saveIndexes(String eventKey, Event event) {
+		log.debug("Creating search indexes for event " + eventKey);
 		opsForZSet.add(ApplicationConstants.EVENT_SCORE_INDEX, eventKey, Double.valueOf(opsForValue.get(ApplicationConstants.EVENT_ID)));
 		//opsForZSet.add(ApplicationConstants.EVENT_DATE_TIME_INDEX, eventKey, Long.valueOf(event.getDateTime()));
 		opsForSet.add(ApplicationConstants.EVENT_GEOLOCATION_INDEX + event.getGeoLocation(), eventKey);
@@ -63,6 +70,7 @@ public class RedisEventDAO implements EventDAO {
 	}
 	
 	private void deleteIndexes(Event event) {
+		log.debug("Deleting search indexes for event " + event.getId());
 		String eventKey = EventIdKeyGenerator.generateEventId(event.getId());
 		opsForSet.remove(ApplicationConstants.EVENT_GEOLOCATION_INDEX + event.getGeoLocation(), eventKey);
 		opsForSet.remove(ApplicationConstants.EVENT_IS_PUBLIC_INDEX + event.getIsPublic(), eventKey);
@@ -98,6 +106,7 @@ public class RedisEventDAO implements EventDAO {
 		}
 		Map<String, String> valueMap = opsForHash.entries(eventKey);
 		if(valueMap.size() == 0) {
+			log.debug("Event could not be found with eventId " + eventKey);
 			throw new EventException(ApplicationConstants.EVENT_NOT_FOUND_EXCEPTION);
 		}
 		return Event.builder()
@@ -115,6 +124,7 @@ public class RedisEventDAO implements EventDAO {
 	}
 	
 	private void deleteScore(String eventKey) {
+		log.debug("Deleting Event Index with eventKey " + eventKey);
 		opsForZSet.remove(ApplicationConstants.EVENT_SCORE_INDEX, eventKey);
 	}
 
@@ -124,6 +134,7 @@ public class RedisEventDAO implements EventDAO {
 		if(!eventId.startsWith(ApplicationConstants.EVENT_ID)) {
 			eventKey = EventIdKeyGenerator.generateEventId(eventId);
 		}
+		log.debug("Deleting Event with evenKey " + eventKey);
 		deleteIndexes(this.get(eventId));
 		deleteScore(eventKey);
 		redisTemplate.delete(eventKey);
@@ -132,6 +143,7 @@ public class RedisEventDAO implements EventDAO {
 	@Override
 	public String update(String eventId, Event event) throws EventException {
 		String eventKey = EventIdKeyGenerator.generateEventId(eventId);
+		log.debug("Updating event with evenKey " + eventKey);
 		deleteIndexes(get(eventKey));
 		String key = persist(eventKey, event.getCreatedby(), event);
 		saveIndexes(key, event);
@@ -177,17 +189,4 @@ public class RedisEventDAO implements EventDAO {
 			return getEvents(opsForZSet.range(ApplicationConstants.EVENT_SCORE_INDEX, start, end).stream());
 		}
 	}
-
-	@Override
-	public List<Event> getByUser(String userId, int startIndex, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Event> search(String filterString, int startIndex, int pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.dharma.ApplicationConstants;
-import org.dharma.dao.RedisEventDAO.EventIdKeyGenerator;
 import org.dharma.exception.UserException;
 import org.dharma.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 
+import lombok.extern.apachecommons.CommonsLog;
+
+@CommonsLog
 public class RedisUserDAO implements UserDAO {
 	
 	private static HashOperations<String, String, String> opsForHash;
@@ -64,6 +66,7 @@ public class RedisUserDAO implements UserDAO {
 	@Override
 	public String save(User user, String createdBy) {
 		String userKey = UserIdKeyGenerator.generateUserId();
+		log.debug("Saving a user with userKey " + userKey);
 		persist(userKey, createdBy, user);
 		saveScore(userKey);
 		return userKey;
@@ -75,6 +78,7 @@ public class RedisUserDAO implements UserDAO {
 		if(!userKey.startsWith(ApplicationConstants.USER_ID)) {
 			userKey = UserIdKeyGenerator.generateEventId(userId);
 		}
+		log.debug("Loading User with userId " + userKey);
 		Map<String, String> valueMap = opsForHash.entries(userKey);
 		if(valueMap.size() == 0) {
 			throw new UserException(ApplicationConstants.USER_NOT_FOUND_EXCEPTION);
@@ -96,6 +100,7 @@ public class RedisUserDAO implements UserDAO {
 		if(!userId.startsWith(ApplicationConstants.USER_ID)) {
 			userKey = UserIdKeyGenerator.generateEventId(userId);
 		}
+		log.debug("Deleting User with userKey " + userKey);
 		deleteScore(userKey);
 		redisTemplate.delete(userKey);
 	}
@@ -106,6 +111,7 @@ public class RedisUserDAO implements UserDAO {
 		if(!userId.startsWith(ApplicationConstants.USER_ID)) {
 			userKey = UserIdKeyGenerator.generateEventId(userId);
 		}
+		log.debug("Updating user with " + userId);
 		return persist(userKey, user.getCreatedBy(), user);
 	}
 

@@ -16,6 +16,9 @@ import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 
+import lombok.extern.apachecommons.CommonsLog;
+
+@CommonsLog
 public class RedisRegistrationDao implements RegistrationDao {
 	private static HashOperations<String, String, String> opsForHash;
 	private static ZSetOperations<String, String> opsForZSet;
@@ -68,6 +71,7 @@ public class RedisRegistrationDao implements RegistrationDao {
 	@Override
 	public String save(Registration registration, String createdBy) {
 		String registrationKey = RegistrationIdKeyGenerator.generateRegistrationId();
+		log.debug("Registering user " + registration.getUserId() + " with event " + registration.getEventId());
 		persist(registrationKey, createdBy, registration);
 		registration.setId(registrationKey);
 		saveScore(registrationKey);
@@ -85,6 +89,7 @@ public class RedisRegistrationDao implements RegistrationDao {
 		else {
 			regKey = registrationId;
 		}
+		log.debug("Deleting Registration with registerationKey " + regKey);
 		
 		Registration reg = load(regKey);
 		opsForZSet.remove(ApplicationConstants.EVENT_SCORE_INDEX, regKey);
@@ -98,6 +103,7 @@ public class RedisRegistrationDao implements RegistrationDao {
 		if(!registrationId.startsWith(ApplicationConstants.REGISTRATION_ID)) {
 			registrationId = RegistrationIdKeyGenerator.generateRegistrationId(registrationId);
 		}
+		log.debug("Loading Registration for " + registrationId);
 		Map<String, String> valueMap = opsForHash.entries(registrationId);
 		if(valueMap.size() == 0) {
 			throw new RegisterException(ApplicationConstants.REGISTRATION_NOT_FOUND_EXCEPTION);

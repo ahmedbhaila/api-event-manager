@@ -23,7 +23,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import lombok.extern.apachecommons.CommonsLog;
+
 @SpringBootApplication
+@CommonsLog
 public class DeusExMachinaApplication {
 
 	@Value("${http.security.admin.user}")
@@ -98,6 +101,7 @@ public class DeusExMachinaApplication {
 	@PostConstruct
 	public void init() throws Exception {
 		// add admin user for spring security
+		log.debug("Adding default admin user");
 		redisTemplate().opsForValue().set(adminUser, adminPassword);
 	}
 

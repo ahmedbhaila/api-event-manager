@@ -9,6 +9,9 @@ import org.dharma.exception.UserException;
 import org.dharma.model.Registration;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.extern.apachecommons.CommonsLog;
+
+@CommonsLog
 public class EventUserRegistrationService {
 	@Autowired
 	RegistrationDao regDao;
@@ -32,6 +35,7 @@ public class EventUserRegistrationService {
 	}
 
 	public void delete(String registrationId) throws Exception {
+		log.debug("Deleting registration");
 		regDao.delete(registrationId);
 	}
 
@@ -40,6 +44,7 @@ public class EventUserRegistrationService {
 			try {
 				regDao.delete(reg);
 			} catch (Exception e) {
+				log.error(e.getMessage());
 			}
 		});
 	}

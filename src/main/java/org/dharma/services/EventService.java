@@ -13,6 +13,9 @@ import org.dharma.exception.EventException;
 import org.dharma.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import lombok.extern.apachecommons.CommonsLog;
+
+@CommonsLog
 public class EventService {
 	
 	@Autowired
@@ -46,6 +49,7 @@ public class EventService {
 			.map(s -> s.split(":"))
 			.collect(Collectors.toMap(e -> e[0], e -> e[1]));
 		}
+		log.debug("Searching for events with criteria " + searchCriteria);
 		return eventDAO.getAll(startIndex, pageSize, searchCriteriaMap);
 	}
 }
