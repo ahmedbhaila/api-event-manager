@@ -15,7 +15,7 @@ The REST endpoints are available at: https://api-event-manager.herokuapp.com. Fo
 
 
 # Project Setup
-api-event-manager is a Spring Boot app. The application uses Redis for data storage. All endpoints are secured using Basic HTTP Auth. You will need to supply username admin and password admin in order to successfully access the endpoints.To build the application from command line, you will first need to export a REDISCLOUD_URI datasource.
+api-event-manager is a Spring Boot app. The application uses Redis for data storage. All endpoints are secured using Basic HTTP Auth. You will need to supply username: admin and password: admin in order to successfully access the endpoints.To build the application from command line, you will first need to export a REDISCLOUD_URI datasource.
 
 > export REDISCLOUD_URI=redis://username:password@{redis_ip}:{redis_port}
 
