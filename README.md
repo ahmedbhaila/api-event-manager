@@ -20,8 +20,7 @@ api-event-manager is a Spring Boot app. The application uses Redis for data stor
 > export REDISCLOUD_URI=redis://username:password@{redis_ip}:{redis_port}
 
 After exporting, you can now build the application using gradle:
-> gradle clean build jar
-This will compile and run unit and integration tests before building an executable jar. 
+> gradle clean build jar -- this will compile and run unit and integration tests before building an executable jar. 
 
 Next, run the executable jar from command-line:
 java -jar build/libs/deus-ex-machina-0.0.1-SNAPSHOT.jar
