@@ -23,7 +23,7 @@ After exporting, you can now build the application using gradle:
 > gradle clean build jar -- this will compile and run unit and integration tests before building an executable jar. 
 
 Next, run the executable jar from command-line:
-java -jar build/libs/deus-ex-machina-0.0.1-SNAPSHOT.jar
+> java -jar build/libs/deus-ex-machina-0.0.1-SNAPSHOT.jar
 
 Alternatively, you can also run the application using gradle bootRun:
 
