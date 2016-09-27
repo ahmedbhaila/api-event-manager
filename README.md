@@ -5,7 +5,7 @@ A RESTful API for creating:
 * Users
 * Registering a User with an Event
 
-For a full list of allowed operations and their syntax, please refer to: https://api-event-manager.herokuapp.com/api-guide.html
+For a full list of allowed operations and their syntax, please refer to: https://api-event-manager.herokuapp.com/api-guide.html(mirror: https://cdn.rawgit.com/ahmedbhaila/api-event-manager/master/src/main/resources/static/api-guide.html)
 
 # Live Demo
 The REST endpoints are available at: https://api-event-manager.herokuapp.com. Follow the api-guide.html for syntax
@@ -30,5 +30,15 @@ Alternatively, you can also run the application using gradle bootRun:
 > gradle bootRun
 
 If you are using an IDE to setup this project, you will need to install Project Lombok which is used to automatically generate Constructors, Builder Pattern object among other things. Please refer to https://projectlombok.org/ for installation.
+
+# The REST API was developed using
+* Spring Boot - Core development
+* Spring Security - Securing all endpoints using Http Basic Auth
+* Spring Data Redis - Using Redis as a datastore with supporting APIs
+* Project Lombok - For auto-generation of accessors/mutators,builders
+* Hibernate Validator - For Data validation
+* Spring Test - For Unit + Integration tests
+* Spring REST Docs - For auto-generation of documentation
+
 
 
