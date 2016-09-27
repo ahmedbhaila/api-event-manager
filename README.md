@@ -1,8 +1,9 @@
 # api-event-manager
 A RESTful API for creating
-. Events
 
-. Users
+* Events
 
-. Registering a User with an Event
+* Users
+
+* Registering a User with an Event
 
