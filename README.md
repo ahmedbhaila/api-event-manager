@@ -5,17 +5,17 @@ A RESTful API for creating:
 * Users
 * Registering a User with an Event
 
-For a full list of allowed operations and their syntax, please refer to: https://event-api-manager.herokuapp.com/api-guide.html (mirror: https://cdn.rawgit.com/ahmedbhaila/api-event-manager/master/src/main/resources/static/api-guide.html)
+For a full list of allowed operations and their syntax, please refer to: https://event-api-manager.herokuapp.com/api-guide.html (mirror: https://cdn.rawgit.com/ahmedbhaila/event-api-manager/master/src/main/resources/static/api-guide.html)
 
 # Live Demo
-The REST endpoints are available at: https://api-event-manager.herokuapp.com. Follow the api-guide.html for syntax
+The REST endpoints are available at: https://event-api-manager.herokuapp.com. Follow the api-guide.html for syntax
 * Events -> /v1/event(s)
 * User -> /v1/user
 * Register -> /v1/register
 
 
 # Project Setup
-api-event-manager is a Spring Boot app. The application uses Redis for data storage. All endpoints are secured using Basic HTTP Auth. You will need to supply username: admin and password: admin in order to successfully access the endpoints.To build the application from command line, you will first need to export a REDISCLOUD_URI datasource.
+event-api-manager is a Spring Boot app. The application uses Redis for data storage. All endpoints are secured using Basic HTTP Auth. You will need to supply username: admin and password: admin in order to successfully access the endpoints.To build the application from command line, you will first need to export a REDISCLOUD_URI datasource.
 
 > export REDISCLOUD_URI=redis://username:password@{redis_ip}:{redis_port}
 
