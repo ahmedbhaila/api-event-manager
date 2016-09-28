@@ -43,7 +43,6 @@ public class DeusExMachinaApplication {
 		JedisConnectionFactory jedisFactory = new JedisConnectionFactory();
 		jedisFactory.setHostName(redisUri.getHost());
 		jedisFactory.setPort(redisUri.getPort());
-		//jedisFactory.setDatabase(2);
 		jedisFactory.setPassword(redisUri.getUserInfo().split(":", 2)[1]);
 		return jedisFactory;
 	}
