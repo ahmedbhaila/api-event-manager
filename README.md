@@ -39,6 +39,7 @@ If you are using an IDE to setup this project, you will need to install Project 
 * Hibernate Validator - For Data validation
 * Spring Test - For Unit + Integration tests
 * Spring REST Docs - For auto-generation of documentation
+* Java 8 Streams
 
 
 
