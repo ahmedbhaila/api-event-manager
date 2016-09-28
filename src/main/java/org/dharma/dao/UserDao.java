@@ -9,5 +9,4 @@ public interface UserDao {
 	public void delete(String userId);
 	public String update(String userId, User user);
 	public Long getTotalUsers();
-
 }
