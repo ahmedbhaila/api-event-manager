@@ -1,11 +1,11 @@
-# api-event-manager
+# event-api-manager
 A RESTful API for creating:
 
 * Events
 * Users
 * Registering a User with an Event
 
-For a full list of allowed operations and their syntax, please refer to: https://api-event-manager.herokuapp.com/api-guide.html (mirror: https://cdn.rawgit.com/ahmedbhaila/api-event-manager/master/src/main/resources/static/api-guide.html)
+For a full list of allowed operations and their syntax, please refer to: https://event-api-manager.herokuapp.com/api-guide.html (mirror: https://cdn.rawgit.com/ahmedbhaila/api-event-manager/master/src/main/resources/static/api-guide.html)
 
 # Live Demo
 The REST endpoints are available at: https://api-event-manager.herokuapp.com. Follow the api-guide.html for syntax
